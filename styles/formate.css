@@ -18,6 +18,11 @@
 	
 #rahmenau
 { border-width : 1px; border-style : solid; border-color : Black; }
+
+#rahmenau {
+    background-image: url('bilder/raute.png');
+    background-repeat: repeat;
+}
 	
 #rahmenliob
 { border-bottom-width : 0px; border-right-width : 0px; border-top-width : 1px; border-left-width : 1px; border-style : solid; border-color : #5066a8; background-color : #ccd3ea;}
