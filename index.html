@@ -43,8 +43,9 @@
                             </tr>
                             <tr>
                                 <td id="rahmenlioub" width="236" height="37">
-                                    <label for="prozent"><span id="textg">+ %MwSt./EUR</span></label>
+                                    <label for="prozent"><span id="textg">+ %MwSt.</span></label>
                                     <input type="text" maxlength="4" name="prozent" id="prozent" style="width:30px">
+									<label for="mwst"><span>+ EUR</span></label>
                                     <input type="text" maxlength="13" name="mwst" id="mwst" style="width:100px">
                                 </td>
                             </tr>
@@ -201,17 +202,28 @@
                 document.getElementById('gesamt').value = gesamt ? gesamt.toFixed(2).replace('.', ',') : '';
 
                 // Betrag in Worten (German, EUR)
-                document.getElementById('worte').value = gesamt ? numberToGermanWords(gesamt) + ' Euro' : '';
+                document.getElementById('worte').value = gesamt ? numberToGermanWords(gesamt) : '';
             }
 
             // Simple German number to words (up to 9999.99)
             function numberToGermanWords(num) {
                 // For brevity, only handles integers up to 9999
-                const units = ['null','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun'];
+                
+                let n = Math.floor(num);
+				let cents = Math.round((num - n) * 100);
+                
+				let words = getWords(n) + ' Euro';
+
+                if (cents > 0) words += ' und ' + getWords(cents) + ' Cent';
+                return words;
+            }
+
+			function getWords(n) {
+				const units = ['null','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun'];
                 const teens = ['zehn','elf','zwölf','dreizehn','vierzehn','fünfzehn','sechzehn','siebzehn','achtzehn','neunzehn'];
                 const tens = ['','','zwanzig','dreißig','vierzig','fünfzig','sechzig','siebzig','achtzig','neunzig'];
-                let n = Math.floor(num);
-                let words = '';
+
+				let words = '';
                 if (n < 10) words = units[n];
                 else if (n < 20) words = teens[n-10];
                 else if (n < 100) {
@@ -225,11 +237,9 @@
                 } else {
                     words = n.toString();
                 }
-                // Add cents if present
-                const cents = Math.round((num - n) * 100);
-                if (cents > 0) words += ' und ' + cents + ' Cent';
-                return words;
-            }
+
+				return words;
+			}
 
             // Initial calculation
             updateFields();
