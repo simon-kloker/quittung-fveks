@@ -1,0 +1,40 @@
+#iblau
+{ background-color: #ccd3ea; border:0px; color: black; font-family: "Arial",Arial,sans-serif; font-size: 11pt; text-align : right; }
+
+#iblaul
+{ background-color: #ccd3ea; border:0px; color: black; font-family: "Arial",Arial,sans-serif; font-size: 11pt; }
+		
+#itrans
+{ background-color: Transparent; border:0px; color: black; font-family: "Arial",Arial,sans-serif; font-size: 11pt; }
+		
+#titel
+{ font-size:22px; font-family:"Arial",Arial,sans-serif; color:#5066a8; font-weight:bold; }
+
+#textg
+{ font-size:11px; font-family:"Arial",Arial,sans-serif; color:#5066a8; margin-left:5px; height:1em;}
+
+#textk
+{ font-size:10px; font-family:"Arial",Arial,sans-serif; color:#5066a8; margin-left:5px; height:1em;}	
+	
+#rahmenau
+{ border-width : 1px; border-style : solid; border-color : Black; }
+	
+#rahmenliob
+{ border-bottom-width : 0px; border-right-width : 0px; border-top-width : 1px; border-left-width : 1px; border-style : solid; border-color : #5066a8; background-color : #ccd3ea;}
+
+#rahmenlioub
+{ border-bottom-width : 1px; border-right-width : 0px; border-top-width : 1px; border-left-width : 1px; border-style : solid; border-color : #5066a8; background-color : #ccd3ea;}
+	
+#rahmenlio
+{ border-bottom-width : 0px; border-right-width : 0px; border-top-width : 1px; border-left-width : 1px; border-style : solid; border-color : #5066a8; }
+	
+#rahmenliou
+{ border-bottom-width : 1px; border-right-width : 0px; border-top-width : 1px; border-left-width : 1px; border-style : solid; border-color : #5066a8; }
+	
+#rahmeno
+{ border-bottom-width : 0px; border-right-width : 0px; border-top-width : 1px; border-left-width : 0px; border-top-style : solid;; border-color : #5066a8; }
+
+@media print { 
+	#steuerung
+	{ display : none; }
+}
