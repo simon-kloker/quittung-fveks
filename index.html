@@ -35,7 +35,7 @@
                             </tr>
                             <tr>
                                 <td width="217" rowspan="2" valign="top">
-									<img src="bilder/fveks_text.png" alt="Förderverein Evangelische KiTa Spielberg e.V. Logo" style="margin-bottom: 12px; max-width: 300px;">
+									<img src="bilder/fveks_text.png" alt="Förderverein Evangelische KiTa Spielberg e.V. Logo" style="margin-bottom: 12px; max-width: 170px;">
                                    
                                 </td>
                                 <td id="rahmenliob" width="236" height="35">
@@ -179,12 +179,19 @@
             const datum = today.toLocaleDateString('de-DE');
             document.getElementById('datum').value = datum;
 
+			// Set Nr. field automatically: YYYY-MM-DD-0001
+        	const yyyy = today.getFullYear();
+        	const mm = String(today.getMonth() + 1).padStart(2, '0');
+        	const dd = String(today.getDate()).padStart(2, '0');
+        	document.getElementById('nr').value = `${yyyy}-${mm}-${dd}-0001`;
+
             // Button actions
             document.getElementById('resetBtn').addEventListener('click', function () {
                 document.getElementById('eingabe').reset();
                 document.getElementById('prozent').value = 0;
                 document.getElementById('gesamt').focus();
                 document.getElementById('datum').value = datum;
+				document.getElementById('nr').value = `${yyyy}-${mm}-${dd}-0001`;
                 updateFields(); // Reset calculated fields
             });
 
