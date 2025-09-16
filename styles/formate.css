@@ -56,8 +56,17 @@ input[type="text"] {
 #rahmeno
 { border-bottom-width : 0px; border-right-width : 0px; border-top-width : 1px; border-left-width : 0px; border-top-style : solid;; border-color : #5066a8; }
 
-@media print { 
-	#steuerung
-	{ display : none; }
-}
 
+@media print {
+    #steuerung { 
+        display : none; 
+    }
+
+    #signature {
+        border: 1px solid #888 !important;
+        display: inline-block !important;
+    }
+    #clearSignature {
+        display: none !important;
+    }
+}

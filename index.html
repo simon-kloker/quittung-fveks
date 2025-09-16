@@ -162,6 +162,8 @@
                             <input type="button" value="Löschen" id="resetBtn">
                             &nbsp;&nbsp;
                             <input type="button" value="Drucken" id="printBtn">
+                            &nbsp;&nbsp;
+                            <input type="button" value="Senden" id="sendBtn">
                         </form>
                     </td>
                 </tr>
@@ -256,19 +258,7 @@
             // Initial calculation
             updateFields();
         });
-    </script>
-    <style>
-@media print {
-    #signature {
-        border: 1px solid #888 !important;
-        display: inline-block !important;
-    }
-    #clearSignature {
-        display: none !important;
-    }
-}
-</style>
-<script type="text/javascript">
+
 // Signature pad logic
 document.addEventListener('DOMContentLoaded', function () {
     const canvas = document.getElementById('signature');
@@ -325,6 +315,28 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('clearSignature').addEventListener('click', function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     });
+});
+</script>
+<script type="text/javascript">
+// Send button logic
+document.getElementById('sendBtn').addEventListener('click', function () {
+    // Load email content from external file
+    fetch('email-content.html')
+        .then(response => response.text())
+        .then(emailBody => {
+            const subject = encodeURIComponent('Deine Quittung vom Förderverein Evangelische KiTa Spielberg e.V.');
+            const cc = 'simon.kloker@mail.de';
+            // mailto does not support HTML body, but some clients will render it
+            const body = encodeURIComponent(emailBody + '\n\nBitte füge die PDF-Quittung als Anhang hinzu.');
+            window.location.href = `mailto:?subject=${subject}&cc=${cc}&body=${body}`;
+        })
+        .catch(() => {
+            // Fallback if file not found
+            const subject = encodeURIComponent('Deine Quittung vom Förderverein Evangelische KiTa Spielberg e.V.');
+            const cc = 'simon.kloker@mail.de';
+            const body = encodeURIComponent('Hallo, anbei findest du deine Quittung. Viele Grüße\n\nBitte füge die PDF-Quittung als Anhang hinzu.');
+            window.location.href = `mailto:?subject=${subject}&cc=${cc}&body=${body}`;
+        });
 });
 </script>
 </body>
