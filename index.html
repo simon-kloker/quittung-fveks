@@ -24,8 +24,7 @@
                         <table width="516" height="390" border="0" cellspacing="0" cellpadding="0" style="table-layout:fixed">
                             <tr>
                                 <td rowspan="11" style="width:56">
-                                    <img src="bilder/werbung2.gif" width="43" height="156" alt="Werbung">
-                                </td>
+                            	</td>
                                 <td colspan="2" align="right" width="453"><span id="titel">Quittung</span></td>
                                 <td rowspan="11">
                                     <img src="bilder/leer.gif" width="7" height="1" alt="" border="0">
@@ -131,7 +130,14 @@
                             </tr>
                             <tr valign="top">
                                 <td width="217" id="rahmeno"><span id="textk">Buchungsvermerke</span></td>
-                                <td width="236" id="rahmeno"><span id="textk">Stempel/Unterschrift des Empfängers</span></td>
+                                <td width="236" id="rahmeno">
+                                    <span id="textk">Stempel/Unterschrift des Empfängers</span>
+                                    <br>
+                                    <!-- Signature canvas -->
+                                    <canvas id="signature" width="220" height="60" style="border:1px solid #888; touch-action: none;"></canvas>
+                                    <br>
+                                    <button type="button" id="clearSignature">Unterschrift löschen</button>
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="2"><img src="bilder/leer.gif" width="1" height="33" alt=""></td>
@@ -150,10 +156,6 @@
                             <input type="button" value="Löschen" id="resetBtn">
                             &nbsp;&nbsp;
                             <input type="button" value="Drucken" id="printBtn">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input type="button" value="Impressum" id="impressumBtn">
-                            &nbsp;&nbsp;
-                            <input type="button" value="Datenschutz" id="datenschutzBtn">
                         </form>
                     </td>
                 </tr>
@@ -193,5 +195,75 @@
             });
         });
     </script>
+    <style>
+@media print {
+    #signature {
+        border: 1px solid #888 !important;
+        display: inline-block !important;
+    }
+    #clearSignature {
+        display: none !important;
+    }
+}
+</style>
+<script type="text/javascript">
+// Signature pad logic
+document.addEventListener('DOMContentLoaded', function () {
+    const canvas = document.getElementById('signature');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    function getPos(e) {
+        if (e.touches) {
+            return {
+                x: e.touches[0].clientX - canvas.getBoundingClientRect().left,
+                y: e.touches[0].clientY - canvas.getBoundingClientRect().top
+            };
+        } else {
+            return {
+                x: e.clientX - canvas.getBoundingClientRect().left,
+                y: e.clientY - canvas.getBoundingClientRect().top
+            };
+        }
+    }
+
+    function startDraw(e) {
+        drawing = true;
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+        e.preventDefault();
+    }
+
+    function draw(e) {
+        if (!drawing) return;
+        const pos = getPos(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        e.preventDefault();
+    }
+
+    function endDraw(e) {
+        drawing = false;
+        e.preventDefault();
+    }
+
+    // Mouse events
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', endDraw);
+    canvas.addEventListener('mouseleave', endDraw);
+
+    // Touch events
+    canvas.addEventListener('touchstart', startDraw);
+    canvas.addEventListener('touchmove', draw);
+    canvas.addEventListener('touchend', endDraw);
+
+    // Clear button
+    document.getElementById('clearSignature').addEventListener('click', function () {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+});
+</script>
 </body>
 </html>
