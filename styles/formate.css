@@ -43,3 +43,7 @@
 	#steuerung
 	{ display : none; }
 }
+
+.visually-hidden {
+    display: none;
+}
