@@ -90,6 +90,19 @@
                                     </table>
                                 </td>
                             </tr>
+							 <tr valign="top" style="height:30px;">
+                                <td id="rahmenlio" colspan="2">
+                                    <table border="0" style="table-layout:fixed" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td style="height:30px; width:70px" valign="top"><span id="textg">an (optional)</span></td>
+                                            <td>
+                                                <label for="an" class="visually-hidden">An</label>
+                                                <input type="text" name="an" id="an" style="width:363px" maxlength="45">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
                             <tr valign="top" style="height:30px;">
                                 <td id="rahmenlio" colspan="2">
                                     <table border="0" style="table-layout:fixed" cellspacing="0" cellpadding="0">
@@ -175,7 +188,8 @@
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('prozent').value = 0; // Set default to 0
 			document.getElementById('ort').value = 'Karlsbad';
-            document.getElementById('gesamt').focus();
+			document.getElementById('an').value = 'Förderverein Evangelische KiTa Spielberg e.V.';
+            document.getElementById('netto').focus();
 
             // Set today's date in German format
             const today = new Date();
@@ -193,7 +207,8 @@
                 document.getElementById('eingabe').reset();
                 document.getElementById('prozent').value = 0;
 				document.getElementById('ort').value = 'Karlsbad';
-                document.getElementById('gesamt').focus();
+				document.getElementById('an').value = 'Förderverein Evangelische KiTa Spielberg e.V.';
+                document.getElementById('netto').focus();
                 document.getElementById('datum').value = datum;
 				document.getElementById('nr').value = `${yyyy}-${mm}-${dd}-0001`;
                 updateFields(); // Reset calculated fields
