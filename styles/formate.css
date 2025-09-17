@@ -70,3 +70,12 @@ input[type="text"] {
         display: none !important;
     }
 }
+
+@media print {
+    #rahmenau {
+        background-image: url('../bilder/raute.png') !important;
+        background-repeat: repeat !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

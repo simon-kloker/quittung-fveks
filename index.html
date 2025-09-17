@@ -282,6 +282,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const ctx = canvas.getContext('2d');
     let drawing = false;
 
+    // Remove focus from all inputs (no cursor)
+    function unfocusInputs() {
+        const active = document.activeElement;
+        if (active && active.tagName === 'INPUT' && active.type === 'text') {
+            active.blur();
+        }
+    }
+
     function getPos(e) {
         if (e.touches) {
             return {
@@ -298,6 +306,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function startDraw(e) {
         drawing = true;
+        unfocusInputs(); // Remove cursor from any input
         const pos = getPos(e);
         ctx.beginPath();
         ctx.moveTo(pos.x, pos.y);
