@@ -591,22 +591,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Umschalt-Logik
-    document.addEventListener('DOMContentLoaded', function () {
-        const quittungSection = document.getElementById('quittungSection');
-        const auszahlungsquittungSection = document.getElementById('auszahlungsquittungSection');
-        const switchBtn = document.getElementById('switchBtn');
+    const quittungSection = document.getElementById('quittungSection');
+    const auszahlungsquittungSection = document.getElementById('auszahlungsquittungSection');
+    const switchBtn = document.getElementById('switchBtn');
 
-        switchBtn.addEventListener('click', function () {
-            if (quittungSection.style.display !== 'none') {
-                quittungSection.style.display = 'none';
-                auszahlungsquittungSection.style.display = '';
-                switchBtn.textContent = 'Zur Quittung wechseln';
-            } else {
-                quittungSection.style.display = '';
-                auszahlungsquittungSection.style.display = 'none';
-                switchBtn.textContent = 'Zur Auszahlungsquittung wechseln';
-            }
-        });
+    switchBtn.addEventListener('click', function () {
+        if (quittungSection.style.display !== 'none') {
+            quittungSection.style.display = 'none';
+            auszahlungsquittungSection.style.display = '';
+            switchBtn.textContent = 'Zur Quittung wechseln';
+        } else {
+            quittungSection.style.display = '';
+            auszahlungsquittungSection.style.display = 'none';
+            switchBtn.textContent = 'Zur Auszahlungsquittung wechseln';
+        }
     });
 });
 </script>
