@@ -12,7 +12,150 @@
     <meta property="og:description" content="Quittungen des Fördervereins Evangelische KiTa Spielberg e.V.">
 
     
-	<link rel="stylesheet" type="text/css" href="styles/formate.css">
+	<!-- <link rel="stylesheet" type="text/css" href="styles/formate.css"> -->
+    <style>
+.visually-hidden {
+    display: none;
+}
+
+/* Harmonized: Use classes instead of IDs for layout/styling elements */
+.iblau {
+    background-color: #ccd3ea;
+    border: 0px;
+    color: black;
+    font-family: "Arial", Arial, sans-serif;
+    font-size: 11pt;
+    text-align: right;
+}
+.iblaul {
+    background-color: #ccd3ea;
+    border: 0px;
+    color: black;
+    font-family: "Arial", Arial, sans-serif;
+    font-size: 11pt;
+}
+.itrans {
+    background-color: transparent;
+    border: 0px;
+    color: black;
+    font-family: "Arial", Arial, sans-serif;
+    font-size: 11pt;
+}
+.titel {
+    font-size: 22px;
+    font-family: "Arial", Arial, sans-serif;
+    color: #5066a8;
+    font-weight: bold;
+}
+.textg {
+    font-size: 11px;
+    font-family: "Arial", Arial, sans-serif;
+    color: #5066a8;
+    height: 1em;
+}
+.textk {
+    font-size: 10px;
+    font-family: "Arial", Arial, sans-serif;
+    color: #5066a8;
+    margin-left: 5px;
+    height: 1em;
+}
+
+/* Main table backgrounds and borders */
+.rahmenau,
+.rahmenau-auszahlung {
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    background-image: url('../bilder/raute.png');
+    background-repeat: repeat;
+}
+
+td {
+    padding-left: 5px;
+}
+
+input[type="text"] {
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    font-family: "Comic Sans MS", "Patrick Hand", "Segoe Script", "Bradley Hand", cursive, sans-serif;
+    font-size: inherit;
+    outline: none;
+}
+
+/* Table cell borders and backgrounds */
+.rahmenliob {
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-style: solid;
+    border-color: #5066a8;
+    background-color: #ccd3ea;
+}
+.rahmenlioub {
+    border-bottom-width: 1px;
+    border-right-width: 0px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-style: solid;
+    border-color: #5066a8;
+    background-color: #ccd3ea;
+}
+.rahmenlio {
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-style: solid;
+    border-color: #5066a8;
+}
+.rahmenliou {
+    border-bottom-width: 1px;
+    border-right-width: 0px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-style: solid;
+    border-color: #5066a8;
+}
+.rahmeno {
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 1px;
+    border-left-width: 0px;
+    border-top-style: solid;
+    border-color: #5066a8;
+}
+
+/* Steuerung/Buttons section */
+.steuerung {
+    /* nothing special, but class for harmony */
+}
+
+/* Print styles */
+@media print {
+    .steuerung {
+        display: none;
+    }
+    #signature,
+    #signature-auszahlung {
+        border: 1px solid #888 !important;
+        display: inline-block !important;
+    }
+    #clearSignature,
+    #clearSignatureAuszahlung {
+        display: none !important;
+    }
+    .rahmenau,
+    .rahmenau-auszahlung {
+        background-image: url('../bilder/raute.png') !important;
+        background-repeat: repeat !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+</style>
 </head>
 <body>
     <main>
