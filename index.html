@@ -154,6 +154,9 @@ input[type="text"] {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
+    #switchBtn {
+        display: none !important;
+    }
 }
 </style>
 </head>
@@ -566,6 +569,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Auszahlungsquittung ---
     setDateAndNumber('auszahlungsdatum', 'auszahlungsnr');
     document.getElementById('ausgezahltvon').value = 'Kassenwart (Simon Kloker)';
+    document.getElementById('auszahlungsort').value = 'Karlsbad'; // <-- Prefill Ort
     function updateAuszahlungsWorte() {
         const betrag = parseFloat(document.getElementById('auszahlungsbetrag').value.replace(',', '.')) || 0;
         document.getElementById('auszahlungsworte').value = betrag ? numberToGermanWords(betrag) : '';
