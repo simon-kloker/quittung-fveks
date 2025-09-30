@@ -327,7 +327,7 @@ input[type="text"] {
                                 </td>
                             </tr>
                             <tr>
-                                <td width="217" rowspan="2" valign="top">
+                                <td width="217" rowspan="1" valign="top">
                                     <img src="bilder/fveks_text.png" alt="Förderverein Evangelische KiTa Spielberg e.V. Logo" style="margin-bottom: 12px; max-width: 170px;">
                                 </td>
                                 <td class="rahmenliob" width="236" height="35">
@@ -345,10 +345,6 @@ input[type="text"] {
                                 <td class="rahmenlio">
                                     <label for="auszahlungsworte"><span class="textg">EUR in Worten</span></label>
                                     <input type="text" name="auszahlungsworte" id="auszahlungsworte" style="width:180px" maxlength="45">
-                                </td>
-                                <td class="rahmenliob" width="236">
-                                    <label for="auszahlungsdatum"><span class="textg">Datum</span></label>
-                                    <input type="text" maxlength="13" name="auszahlungsdatum" id="auszahlungsdatum" style="width:110px">
                                 </td>
                             </tr>
                             <tr valign="top" style="height:30px;">
@@ -403,11 +399,11 @@ input[type="text"] {
                                             <td style="height:30px; width:70px" valign="top"><span class="textg">Ort/Datum</span></td>
                                             <td>
                                                 <label for="auszahlungsort" class="visually-hidden">Ort</label>
-                                                <input type="text" name="auszahlungsort" id="auszahlungsort" style="width:263px" maxlength="32" value="Karlsbad">
+                                                <input type="text" name="auszahlungsort" id="auszahlungsort" style="width:263px" maxlength="32">
                                             </td>
                                             <td style="width:100px" align="right">
-                                                <label for="auszahlungsdatum2" class="visually-hidden">Datum</label>
-                                                <input type="text" name="auszahlungsdatum2" id="auszahlungsdatum2" style="width:90px" maxlength="10">
+                                                <label for="auszahlungsdatum" class="visually-hidden">Datum</label>
+                                                <input type="text" name="auszahlungsdatum" id="auszahlungsdatum" style="width:90px" maxlength="10">
                                             </td>
                                         </tr>
                                     </table>
@@ -569,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Auszahlungsquittung ---
     setDateAndNumber('auszahlungsdatum', 'auszahlungsnr');
-    document.getElementById('ausgezahltvon').value = 'Kassenwart *Simon Kloker)';
+    document.getElementById('ausgezahltvon').value = 'Kassenwart (Simon Kloker)';
     function updateAuszahlungsWorte() {
         const betrag = parseFloat(document.getElementById('auszahlungsbetrag').value.replace(',', '.')) || 0;
         document.getElementById('auszahlungsworte').value = betrag ? numberToGermanWords(betrag) : '';
