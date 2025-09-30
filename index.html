@@ -13,7 +13,6 @@
 
     
 	<link rel="stylesheet" type="text/css" href="styles/formate.css">
-    <script src="scripts/funktionen.js" type="text/javascript"></script>
 </head>
 <body>
     <main>
@@ -182,187 +181,251 @@
                 </tr>
             </table>
         </section>
+        <!-- Neue Auszahlungsquittung -->
+        <section>
+            <table width="517" height="391" border="0" id="rahmenau-auszahlung">
+                <tr>
+                    <td align="center">
+                        <table width="516" height="390" border="0" cellspacing="0" cellpadding="0" style="table-layout:fixed">
+                            <tr>
+                                <td colspan="4" align="right" width="453">
+                                    <span id="titel">Auszahlungsquittung</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="217" rowspan="2" valign="top">
+                                    <img src="bilder/fveks_text.png" alt="Förderverein Evangelische KiTa Spielberg e.V. Logo" style="margin-bottom: 12px; max-width: 170px;">
+                                </td>
+                                <td id="rahmenliob" width="236" height="35" colspan="3">
+                                    <label for="auszahlungsbetrag"><span id="textg">Auszahlungsbetrag EUR</span></label>
+                                    <input type="text" maxlength="13" name="auszahlungsbetrag" id="auszahlungsbetrag" style="width:110px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="rahmenlioub" width="236" height="37" colspan="3">
+                                    <label for="auszahlungsgrund"><span id="textg">Grund der Auszahlung</span></label>
+                                    <input type="text" maxlength="45" name="auszahlungsgrund" id="auszahlungsgrund" style="width:250px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="rahmenlio" colspan="2">
+                                    <label for="auszahlungsnr"><span id="textg">Nr.</span></label>
+                                    <input type="text" maxlength="20" name="auszahlungsnr" id="auszahlungsnr" style="width:180px">
+                                </td>
+                                <td id="rahmenliob" width="236" colspan="2">
+                                    <label for="auszahlungsdatum"><span id="textg">Datum</span></label>
+                                    <input type="text" maxlength="13" name="auszahlungsdatum" id="auszahlungsdatum" style="width:110px">
+                                </td>
+                            </tr>
+                            <tr valign="top" style="height:30px;">
+                                <td id="rahmenliob" colspan="4">
+                                    <table border="0" style="table-layout:fixed" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td style="height:30px; width:70px"><span id="textg">EUR<br>in Worten</span></td>
+                                            <td>
+                                                <label for="auszahlungsworte" class="visually-hidden">Betrag in Worten</label>
+                                                <input type="text" name="auszahlungsworte" id="auszahlungsworte" style="width:363px" maxlength="45">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr valign="top" style="height:30px;">
+                                <td id="rahmenlio" colspan="4">
+                                    <table border="0" style="table-layout:fixed" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td style="height:30px; width:70px" valign="top"><span id="textg">Empfänger</span></td>
+                                            <td>
+                                                <label for="auszahlungsempfaenger" class="visually-hidden">Empfänger</label>
+                                                <input type="text" name="auszahlungsempfaenger" id="auszahlungsempfaenger" style="width:363px" maxlength="45">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr valign="top">
+                                <td width="217" id="rahmeno"><span id="textk">Buchungsvermerke</span></td>
+                                <td width="236" id="rahmeno" colspan="3">
+                                    <span id="textk">Stempel/Unterschrift des Empfängers</span>
+                                    <br>
+                                    <canvas id="signature-auszahlung" width="220" height="60" style="border:1px solid #888; touch-action: none;"></canvas>
+                                    <br>
+                                    <button type="button" id="clearSignatureAuszahlung">Unterschrift löschen</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"><img src="bilder/leer.gif" width="1" height="33" alt=""></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </section>
     </main>
     <script type="text/javascript">
-        // Set default values and focus
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('prozent').value = 0; // Set default to 0
-			document.getElementById('ort').value = 'Karlsbad';
-			document.getElementById('an').value = 'Förderverein Evangelische KiTa Spielberg e.V.';
-            document.getElementById('netto').focus();
-
-            // Set today's date in German format
-            const today = new Date();
-            const datum = today.toLocaleDateString('de-DE');
-            document.getElementById('datum').value = datum;
-
-			// Set Nr. field automatically: YYYY-MM-DD-0001
-        	const yyyy = today.getFullYear();
-        	const mm = String(today.getMonth() + 1).padStart(2, '0');
-        	const dd = String(today.getDate()).padStart(2, '0');
-        	document.getElementById('nr').value = `${yyyy}-${mm}-${dd}-0001`;
-
-            // Button actions
-            document.getElementById('resetBtn').addEventListener('click', function () {
-                document.getElementById('eingabe').reset();
-                document.getElementById('prozent').value = 0;
-				document.getElementById('ort').value = 'Karlsbad';
-				document.getElementById('an').value = 'Förderverein Evangelische KiTa Spielberg e.V.';
-                document.getElementById('netto').focus();
-                document.getElementById('datum').value = datum;
-				document.getElementById('nr').value = `${yyyy}-${mm}-${dd}-0001`;
-                updateFields(); // Reset calculated fields
-            });
-
-            document.getElementById('printBtn').addEventListener('click', function () {
-                window.print();
-                document.getElementById('netto').focus();
-            });
-
-            // Update fields when netto or prozent changes
-            document.getElementById('netto').addEventListener('input', updateFields);
-            document.getElementById('prozent').addEventListener('input', updateFields);
-
-            function updateFields() {
-                const netto = parseFloat(document.getElementById('netto').value.replace(',', '.')) || 0;
-                const prozent = parseFloat(document.getElementById('prozent').value.replace(',', '.')) || 0;
-                const mwst = netto * prozent / 100;
-                const gesamt = netto + mwst;
-
-                document.getElementById('mwst').value = mwst ? mwst.toFixed(2).replace('.', ',') : '';
-                document.getElementById('gesamt').value = gesamt ? gesamt.toFixed(2).replace('.', ',') : '';
-
-                // Betrag in Worten (German, EUR)
-                document.getElementById('worte').value = gesamt ? numberToGermanWords(gesamt) : '';
-            }
-
-            // Simple German number to words (up to 9999.99)
-            function numberToGermanWords(num) {
-                // For brevity, only handles integers up to 9999
-                
-                let n = Math.floor(num);
-				let cents = Math.round((num - n) * 100);
-                
-				let words = getWords(n) + ' Euro';
-
-                if (cents > 0) words += ' und ' + getWords(cents) + ' Cent';
-                return words;
-            }
-
-			function getWords(n) {
-				const units = ['null','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun'];
-                const teens = ['zehn','elf','zwölf','dreizehn','vierzehn','fünfzehn','sechzehn','siebzehn','achtzehn','neunzehn'];
-                const tens = ['','','zwanzig','dreißig','vierzig','fünfzig','sechzig','siebzig','achtzig','neunzig'];
-
-				let words = '';
-                if (n < 10) words = units[n];
-                else if (n < 20) words = teens[n-10];
-                else if (n < 100) {
-                    words = (n%10 === 0 ? '' : units[n%10] + 'und') + tens[Math.floor(n/10)];
-                } else if (n < 1000) {
-                    words = units[Math.floor(n/100)] + 'hundert';
-                    if (n%100 !== 0) words += numberToGermanWords(n%100);
-                } else if (n < 10000) {
-                    words = units[Math.floor(n/1000)] + 'tausend';
-                    if (n%1000 !== 0) words += numberToGermanWords(n%1000);
-                } else {
-                    words = n.toString();
-                }
-
-				return words;
-			}
-
-            // Initial calculation
-            updateFields();
-        });
-
-// Signature pad logic
 document.addEventListener('DOMContentLoaded', function () {
-    const canvas = document.getElementById('signature');
-    const ctx = canvas.getContext('2d');
-    let drawing = false;
-
-    // Remove focus from all inputs (no cursor)
-    function unfocusInputs() {
-        const active = document.activeElement;
-        if (active && active.tagName === 'INPUT' && active.type === 'text') {
-            active.blur();
-        }
+    // --- Helper: German number to words ---
+    function numberToGermanWords(num) {
+        let n = Math.floor(num);
+        let cents = Math.round((num - n) * 100);
+        let words = getWords(n) + ' Euro';
+        if (cents > 0) words += ' und ' + getWords(cents) + ' Cent';
+        return words;
     }
-
-    function getPos(e) {
-        if (e.touches) {
-            return {
-                x: e.touches[0].clientX - canvas.getBoundingClientRect().left,
-                y: e.touches[0].clientY - canvas.getBoundingClientRect().top
-            };
+    function getWords(n) {
+        const units = ['null','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun'];
+        const teens = ['zehn','elf','zwölf','dreizehn','vierzehn','fünfzehn','sechzehn','siebzehn','achtzehn','neunzehn'];
+        const tens = ['','','zwanzig','dreißig','vierzig','fünfzig','sechzig','siebzig','achtzig','neunzig'];
+        let words = '';
+        if (n < 10) words = units[n];
+        else if (n < 20) words = teens[n-10];
+        else if (n < 100) {
+            words = (n%10 === 0 ? '' : units[n%10] + 'und') + tens[Math.floor(n/10)];
+        } else if (n < 1000) {
+            words = units[Math.floor(n/100)] + 'hundert';
+            if (n%100 !== 0) words += getWords(n%100);
+        } else if (n < 10000) {
+            words = units[Math.floor(n/1000)] + 'tausend';
+            if (n%1000 !== 0) words += getWords(n%1000);
         } else {
-            return {
-                x: e.clientX - canvas.getBoundingClientRect().left,
-                y: e.clientY - canvas.getBoundingClientRect().top
-            };
+            words = n.toString();
         }
+        return words;
     }
 
-    function startDraw(e) {
-        drawing = true;
-        unfocusInputs(); // Remove cursor from any input
-        const pos = getPos(e);
-        ctx.beginPath();
-        ctx.moveTo(pos.x, pos.y);
-        e.preventDefault();
+    // --- Helper: Set date and number fields ---
+    function setDateAndNumber(dateFieldId, nrFieldId) {
+        const today = new Date();
+        const datum = today.toLocaleDateString('de-DE');
+        document.getElementById(dateFieldId).value = datum;
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        document.getElementById(nrFieldId).value = `${yyyy}-${mm}-${dd}-0001`;
     }
 
-    function draw(e) {
-        if (!drawing) return;
-        const pos = getPos(e);
-        ctx.lineTo(pos.x, pos.y);
-        ctx.stroke();
-        e.preventDefault();
-    }
-
-    function endDraw(e) {
-        drawing = false;
-        e.preventDefault();
-    }
-
-    // Mouse events
-    canvas.addEventListener('mousedown', startDraw);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', endDraw);
-    canvas.addEventListener('mouseleave', endDraw);
-
-    // Touch events
-    canvas.addEventListener('touchstart', startDraw);
-    canvas.addEventListener('touchmove', draw);
-    canvas.addEventListener('touchend', endDraw);
-
-    // Clear button
-    document.getElementById('clearSignature').addEventListener('click', function () {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    });
-});
-</script>
-<script type="text/javascript">
-// Send button logic
-document.getElementById('sendBtn').addEventListener('click', function () {
-    // Load email content from external file
-    fetch('email-content.html')
-        .then(response => response.text())
-        .then(emailBody => {
-            const subject = encodeURIComponent('Deine Quittung vom Förderverein Evangelische KiTa Spielberg e.V.');
-            const cc = 'simon.kloker@mail.de';
-            // mailto does not support HTML body, but some clients will render it
-            const body = encodeURIComponent(emailBody + '\n\nBitte füge die PDF-Quittung als Anhang hinzu.');
-            window.location.href = `mailto:?subject=${subject}&cc=${cc}&body=${body}`;
-        })
-        .catch(() => {
-            // Fallback if file not found
-            const subject = encodeURIComponent('Deine Quittung vom Förderverein Evangelische KiTa Spielberg e.V.');
-            const cc = 'simon.kloker@mail.de';
-            const body = encodeURIComponent('Hallo, anbei findest du deine Quittung. Viele Grüße\n\nBitte füge die PDF-Quittung als Anhang hinzu.');
-            window.location.href = `mailto:?subject=${subject}&cc=${cc}&body=${body}`;
+    // --- Helper: Signature Pad ---
+    function initSignaturePad(canvasId, clearBtnId) {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        function unfocusInputs() {
+            const active = document.activeElement;
+            if (active && active.tagName === 'INPUT' && active.type === 'text') {
+                active.blur();
+            }
+        }
+        function getPos(e) {
+            if (e.touches) {
+                return {
+                    x: e.touches[0].clientX - canvas.getBoundingClientRect().left,
+                    y: e.touches[0].clientY - canvas.getBoundingClientRect().top
+                };
+            } else {
+                return {
+                    x: e.clientX - canvas.getBoundingClientRect().left,
+                    y: e.clientY - canvas.getBoundingClientRect().top
+                };
+            }
+        }
+        function startDraw(e) {
+            drawing = true;
+            unfocusInputs();
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            e.preventDefault();
+        }
+        function draw(e) {
+            if (!drawing) return;
+            const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            e.preventDefault();
+        }
+        function endDraw(e) {
+            drawing = false;
+            e.preventDefault();
+        }
+        // Mouse events
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', endDraw);
+        canvas.addEventListener('mouseleave', endDraw);
+        // Touch events
+        canvas.addEventListener('touchstart', startDraw);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', endDraw);
+        // Clear button
+        document.getElementById(clearBtnId).addEventListener('click', function () {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
         });
+    }
+
+    // --- Main Quittung ---
+    document.getElementById('prozent').value = 0;
+    document.getElementById('ort').value = 'Karlsbad';
+    document.getElementById('an').value = 'Förderverein Evangelische KiTa Spielberg e.V.';
+    document.getElementById('netto').focus();
+    setDateAndNumber('datum', 'nr');
+    function updateFields() {
+        const netto = parseFloat(document.getElementById('netto').value.replace(',', '.')) || 0;
+        const prozent = parseFloat(document.getElementById('prozent').value.replace(',', '.')) || 0;
+        const mwst = netto * prozent / 100;
+        const gesamt = netto + mwst;
+        document.getElementById('mwst').value = mwst ? mwst.toFixed(2).replace('.', ',') : '';
+        document.getElementById('gesamt').value = gesamt ? gesamt.toFixed(2).replace('.', ',') : '';
+        document.getElementById('worte').value = gesamt ? numberToGermanWords(gesamt) : '';
+    }
+    document.getElementById('netto').addEventListener('input', updateFields);
+    document.getElementById('prozent').addEventListener('input', updateFields);
+    updateFields();
+
+    // --- Auszahlungsquittung ---
+    setDateAndNumber('auszahlungsdatum', 'auszahlungsnr');
+    function updateAuszahlungsWorte() {
+        const betrag = parseFloat(document.getElementById('auszahlungsbetrag').value.replace(',', '.')) || 0;
+        document.getElementById('auszahlungsworte').value = betrag ? numberToGermanWords(betrag) : '';
+    }
+    document.getElementById('auszahlungsbetrag').addEventListener('input', updateAuszahlungsWorte);
+
+    // --- Signature Pads ---
+    initSignaturePad('signature', 'clearSignature');
+    initSignaturePad('signature-auszahlung', 'clearSignatureAuszahlung');
+
+    // --- Button actions ---
+    document.getElementById('resetBtn').addEventListener('click', function () {
+        document.getElementById('eingabe').reset();
+        document.getElementById('prozent').value = 0;
+        document.getElementById('ort').value = 'Karlsbad';
+        document.getElementById('an').value = 'Förderverein Evangelische KiTa Spielberg e.V.';
+        document.getElementById('netto').focus();
+        setDateAndNumber('datum', 'nr');
+        updateFields();
+    });
+
+    document.getElementById('printBtn').addEventListener('click', function () {
+        window.print();
+        document.getElementById('netto').focus();
+    });
+
+    // Send button logic
+    document.getElementById('sendBtn').addEventListener('click', function () {
+        fetch('email-content.html')
+            .then(response => response.text())
+            .then(emailBody => {
+                const subject = encodeURIComponent('Deine Quittung vom Förderverein Evangelische KiTa Spielberg e.V.');
+                const cc = 'simon.kloker@mail.de';
+                const body = encodeURIComponent(emailBody + '\n\nBitte füge die PDF-Quittung als Anhang hinzu.');
+                window.location.href = `mailto:?subject=${subject}&cc=${cc}&body=${body}`;
+            })
+            .catch(() => {
+                const subject = encodeURIComponent('Deine Quittung vom Förderverein Evangelische KiTa Spielberg e.V.');
+                const cc = 'simon.kloker@mail.de';
+                const body = encodeURIComponent('Hallo, anbei findest du deine Quittung. Viele Grüße\n\nBitte füge die PDF-Quittung als Anhang hinzu.');
+                window.location.href = `mailto:?subject=${subject}&cc=${cc}&body=${body}`;
+            });
+    });
 });
 </script>
 </body>
