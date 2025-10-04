@@ -20,7 +20,7 @@
 <body>
     <main>
         <!-- Auszahlungsquittung -->
-        <section id="auszahlungsquittungSection" style="display:none;">
+        <section id="auszahlungsquittungSection">
             <table width="672" height="508" border="0" class="rahmenau-auszahlung">
                 <tr>
                     <td align="center">
@@ -63,10 +63,10 @@
                                 <td class="rahmenlio" colspan="2">
                                     <table border="0" style="table-layout:fixed" cellspacing="0" cellpadding="0">
                                         <tr>
-                                            <td style="height:30px; width:70px" valign="top"><span class="textg">Empfänger</span></td>
+                                            <td style="height:30px; width:120px" valign="top"><span class="textg">Empfänger</span></td>
                                             <td>
                                                 <label for="auszahlungsempfaenger" class="visually-hidden">Empfänger</label>
-                                                <input type="text" name="auszahlungsempfaenger" id="auszahlungsempfaenger" style="width:363px" maxlength="45">
+                                                <input type="text" name="auszahlungsempfaenger" id="auszahlungsempfaenger" style="width:313px" maxlength="45">
                                             </td>
                                         </tr>
                                     </table>
@@ -279,6 +279,42 @@ document.addEventListener('DOMContentLoaded', function () {
         window.print();
         document.getElementById('auszahlungsbetrag').focus();
     });
+    
+    // --- URL Parameter Helper ---
+    function getUrlParams() {
+        const params = {};
+        window.location.search.substring(1).split('&').forEach(function (pair) {
+            if (!pair) return;
+            const [key, value] = pair.split('=');
+            params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+        });
+        return params;
+    }
+
+    function setAndProtect(id, value) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.value = value;
+        el.readOnly = true;
+        el.style.backgroundColor = "#eee";
+        el.style.pointerEvents = "none";
+    }
+
+    // --- Apply URL Parameters and Lock Fields ---
+    const params = getUrlParams();
+
+    // Prefill and lock all relevant fields except signature
+    if (params.auszahlungsbetrag) setAndProtect('auszahlungsbetrag', params.auszahlungsbetrag);
+    if (params.auszahlungsgrund) setAndProtect('auszahlungsgrund', params.auszahlungsgrund);
+    if (params.auszahlungsnr) setAndProtect('auszahlungsnr', params.auszahlungsnr);
+    if (params.auszahlungsworte) setAndProtect('auszahlungsworte', params.auszahlungsworte);
+    if (params.auszahlungsempfaenger) setAndProtect('auszahlungsempfaenger', params.auszahlungsempfaenger);
+    if (params.ausgezahltvon) setAndProtect('ausgezahltvon', params.ausgezahltvon);
+    if (params.auszahlungsort) setAndProtect('auszahlungsort', params.auszahlungsort);
+    if (params.auszahlungsdatum) setAndProtect('auszahlungsdatum', params.auszahlungsdatum);
+
+    // Update calculated fields if values were set
+    updateAuszahlungsWorte && updateAuszahlungsWorte();
 });
     </script>
 </body>
