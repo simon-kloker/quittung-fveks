@@ -120,9 +120,11 @@
                                 <td width="236" class="rahmeno">
                                     <span class="textk">Stempel/Unterschrift des Empfängers</span>
                                     <br>
-                                    <canvas id="signature-auszahlung" width="220" height="60" style="border:1px solid #888; touch-action: none;"></canvas>
+                                    <button type="button" id="addSignatureBtn">Unterschrift hinzufügen</button>
                                     <br>
-                                    <button type="button" id="clearSignatureAuszahlung">Unterschrift löschen</button>
+                                    <canvas id="signature-auszahlung" width="220" height="60" style="border:1px solid #888; touch-action: none; display:none;"></canvas>
+                                    <br>
+                                    <button type="button" id="clearSignatureAuszahlung" style="display:none;">Unterschrift löschen</button>
                                 </td>
                             </tr>
                             <tr>
@@ -263,7 +265,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Signature Pad Fullscreen Zoom Feature ---
     const signatureCanvas = document.getElementById('signature-auszahlung');
-    const signatureContainer = signatureCanvas.parentElement;
+    const addSignatureBtn = document.getElementById('addSignatureBtn');
+    const clearSignatureBtn = document.getElementById('clearSignatureAuszahlung');
 
     // Create fullscreen overlay
     const overlay = document.createElement('div');
@@ -318,24 +321,30 @@ document.addEventListener('DOMContentLoaded', function () {
         ctxSmall.drawImage(bigCanvas, 0, 0, signatureCanvas.width, signatureCanvas.height);
     }
 
-    // Show overlay on focus or Enter
-    signatureCanvas.addEventListener('focus', showOverlay);
-    signatureCanvas.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            showOverlay();
-        }
-    });
-    signatureCanvas.addEventListener('click', showOverlay);
-
-    function showOverlay() {
+    // Show overlay and hide signature field until signature is added
+    addSignatureBtn.addEventListener('click', function() {
         copyToBigCanvas();
         overlay.style.display = 'flex';
-    }
+    });
 
-    // Hide overlay and copy back
+    // Hide overlay and show signature field if signature was added
     closeBtn.addEventListener('click', function() {
         overlay.style.display = 'none';
-        copyToSmallCanvas();
+        // Check if something was drawn
+        const empty = (function() {
+            const ctx = bigCanvas.getContext('2d');
+            const imgData = ctx.getImageData(0, 0, bigCanvas.width, bigCanvas.height).data;
+            for (let i = 0; i < imgData.length; i += 4) {
+                if (imgData[i+3] !== 0) return false;
+            }
+            return true;
+        })();
+        if (!empty) {
+            copyToSmallCanvas();
+            signatureCanvas.style.display = '';
+            clearSignatureBtn.style.display = '';
+            addSignatureBtn.style.display = 'none';
+        }
     });
 
     // Signature logic for bigCanvas
@@ -382,10 +391,13 @@ document.addEventListener('DOMContentLoaded', function () {
         bigCanvas.addEventListener('touchend', endDraw);
     })();
 
-    // Optional: clear signature in both canvases
-    document.getElementById('clearSignatureAuszahlung').addEventListener('click', function () {
+    // Clear signature in both canvases and reset UI
+    clearSignatureBtn.addEventListener('click', function () {
         signatureCanvas.getContext('2d').clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
         bigCanvas.getContext('2d').clearRect(0, 0, bigCanvas.width, bigCanvas.height);
+        signatureCanvas.style.display = 'none';
+        clearSignatureBtn.style.display = 'none';
+        addSignatureBtn.style.display = '';
     });
 
     // --- Button actions ---
