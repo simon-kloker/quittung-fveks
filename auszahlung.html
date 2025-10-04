@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Auszahlungsquittung – Förderverein Evangelische KiTa Spielberg e.V.</title>
+    <meta name="keywords" content="Drucken, Quittung, Quittungen, ausdrucken, online">
+    <meta name="description" content="Auszahlungsquittung des Fördervereins Evangelische KiTa Spielberg e.V.">
+    <style>
+        /* ... (copy your CSS from <style> block here) ... */
+        /* Only the .rahmenau-auszahlung table is needed, not .rahmenau */
+        /* ... */
+        @media print {
+            .steuerung { display: none; }
+            #signature-auszahlung { border: 1px solid #888 !important; display: inline-block !important; }
+            #clearSignatureAuszahlung { display: none !important; }
+            .rahmenau-auszahlung { background-image: url('../bilder/raute.png') !important; background-repeat: repeat !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section id="auszahlungsquittungSection">
+            <table width="672" height="508" border="0" class="rahmenau-auszahlung">
+                <!-- ... (copy the Auszahlungsquittung table HTML here, as in your current file) ... -->
+            </table>
+        </section>
+        <section>
+            <table width="517" border="0" cellspacing="0" cellpadding="0" class="steuerung">
+                <tr>
+                    <td align="center">
+                        <br>
+                        <form id="knoepfe">
+                            <input type="button" value="Löschen" id="resetBtn">
+                            &nbsp;&nbsp;
+                            <input type="button" value="Drucken" id="printBtn">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </section>
+    </main>
+    <script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function () {
+    // --- Helper: German number to words ---
+    function numberToGermanWords(num) {
+        let n = Math.floor(num);
+        let cents = Math.round((num - n) * 100);
+        let words = getWords(n) + ' Euro';
+        if (cents > 0) words += ' und ' + getWords(cents) + ' Cent';
+        return words;
+    }
+    function getWords(n) {
+        const units = ['null','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun'];
+        const teens = ['zehn','elf','zwölf','dreizehn','vierzehn','fünfzehn','sechzehn','siebzehn','achtzehn','neunzehn'];
+        const tens = ['','','zwanzig','dreißig','vierzig','fünfzig','sechzig','siebzig','achtzig','neunzig'];
+        let words = '';
+        if (n < 10) words = units[n];
+        else if (n < 20) words = teens[n-10];
+        else if (n < 100) {
+            words = (n%10 === 0 ? '' : units[n%10] + 'und') + tens[Math.floor(n/10)];
+        } else if (n < 1000) {
+            words = units[Math.floor(n/100)] + 'hundert';
+            if (n%100 !== 0) words += getWords(n%100);
+        } else if (n < 10000) {
+            words = units[Math.floor(n/1000)] + 'tausend';
+            if (n%1000 !== 0) words += getWords(n%1000);
+        } else {
+            words = n.toString();
+        }
+        return words;
+    }
+
+    // --- Helper: Set date and number fields ---
+    function setDateAndNumber(dateFieldId, nrFieldId) {
+        const today = new Date();
+        const datum = today.toLocaleDateString('de-DE');
+        document.getElementById(dateFieldId).value = datum;
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        document.getElementById(nrFieldId).value = `${yyyy}-${mm}-${dd}-0001`;
+    }
+
+    // --- Helper: Signature Pad ---
+    function initSignaturePad(canvasId, clearBtnId) {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        function unfocusInputs() {
+            const active = document.activeElement;
+            if (active && active.tagName === 'INPUT' && active.type === 'text') {
+                active.blur();
+            }
+        }
+        function getPos(e) {
+            if (e.touches) {
+                return {
+                    x: e.touches[0].clientX - canvas.getBoundingClientRect().left,
+                    y: e.touches[0].clientY - canvas.getBoundingClientRect().top
+                };
+            } else {
+                return {
+                    x: e.clientX - canvas.getBoundingClientRect().left,
+                    y: e.clientY - canvas.getBoundingClientRect().top
+                };
+            }
+        }
+        function startDraw(e) {
+            drawing = true;
+            unfocusInputs();
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            e.preventDefault();
+        }
+        function draw(e) {
+            if (!drawing) return;
+            const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            e.preventDefault();
+        }
+        function endDraw(e) {
+            drawing = false;
+            e.preventDefault();
+        }
+        // Mouse events
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', endDraw);
+        canvas.addEventListener('mouseleave', endDraw);
+        // Touch events
+        canvas.addEventListener('touchstart', startDraw);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', endDraw);
+        // Clear button
+        document.getElementById(clearBtnId).addEventListener('click', function () {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+    }
+
+    // --- Auszahlungsquittung ---
+    setDateAndNumber('auszahlungsdatum', 'auszahlungsnr');
+    document.getElementById('ausgezahltvon').value = 'Kassenwart (Simon Kloker)';
+    document.getElementById('auszahlungsort').value = 'Karlsbad';
+    function updateAuszahlungsWorte() {
+        const betrag = parseFloat(document.getElementById('auszahlungsbetrag').value.replace(',', '.')) || 0;
+        document.getElementById('auszahlungsworte').value = betrag ? numberToGermanWords(betrag) : '';
+    }
+    document.getElementById('auszahlungsbetrag').addEventListener('input', updateAuszahlungsWorte);
+
+    // --- Signature Pad ---
+    initSignaturePad('signature-auszahlung', 'clearSignatureAuszahlung');
+
+    // --- Button actions ---
+    document.getElementById('resetBtn').addEventListener('click', function () {
+        // Reset all relevant fields
+        document.getElementById('auszahlungsbetrag').value = '';
+        document.getElementById('auszahlungsgrund').value = '';
+        document.getElementById('auszahlungsnr').value = '';
+        document.getElementById('auszahlungsworte').value = '';
+        document.getElementById('auszahlungsempfaenger').value = '';
+        document.getElementById('ausgezahltvon').value = 'Kassenwart (Simon Kloker)';
+        document.getElementById('auszahlungsort').value = 'Karlsbad';
+        setDateAndNumber('auszahlungsdatum', 'auszahlungsnr');
+        updateAuszahlungsWorte();
+    });
+
+    document.getElementById('printBtn').addEventListener('click', function () {
+        window.print();
+        document.getElementById('auszahlungsbetrag').focus();
+    });
+});
+    </script>
+</body>
+</html>
