@@ -1,29 +1,57 @@
+
 .visually-hidden {
     display: none;
 }
 
-#iblau
-{ background-color: #ccd3ea; border:0px; color: black; font-family: "Arial",Arial,sans-serif; font-size: 11pt; text-align : right; }
+/* Harmonized: Use classes instead of IDs for layout/styling elements */
+.iblau {
+    background-color: #ccd3ea;
+    border: 0px;
+    color: black;
+    font-family: "Arial", Arial, sans-serif;
+    font-size: 11pt;
+    text-align: right;
+}
+.iblaul {
+    background-color: #ccd3ea;
+    border: 0px;
+    color: black;
+    font-family: "Arial", Arial, sans-serif;
+    font-size: 11pt;
+}
+.itrans {
+    background-color: transparent;
+    border: 0px;
+    color: black;
+    font-family: "Arial", Arial, sans-serif;
+    font-size: 11pt;
+}
+.titel {
+    font-size: 22px;
+    font-family: "Arial", Arial, sans-serif;
+    color: #5066a8;
+    font-weight: bold;
+}
+.textg {
+    font-size: 11px;
+    font-family: "Arial", Arial, sans-serif;
+    color: #5066a8;
+    height: 1em;
+}
+.textk {
+    font-size: 10px;
+    font-family: "Arial", Arial, sans-serif;
+    color: #5066a8;
+    margin-left: 5px;
+    height: 1em;
+}
 
-#iblaul
-{ background-color: #ccd3ea; border:0px; color: black; font-family: "Arial",Arial,sans-serif; font-size: 11pt; }
-		
-#itrans
-{ background-color: Transparent; border:0px; color: black; font-family: "Arial",Arial,sans-serif; font-size: 11pt; }
-		
-#titel
-{ font-size:22px; font-family:"Arial",Arial,sans-serif; color:#5066a8; font-weight:bold; }
-
-#textg
-{ font-size:11px; font-family:"Arial",Arial,sans-serif; color:#5066a8; height:1em;}
-
-#textk
-{ font-size:10px; font-family:"Arial",Arial,sans-serif; color:#5066a8; margin-left:5px; height:1em;}	
-	
-#rahmenau
-{ border-width : 1px; border-style : solid; border-color : Black; }
-
-#rahmenau {
+/* Main table backgrounds and borders */
+.rahmenau,
+.rahmenau-auszahlung {
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
     background-image: url('../bilder/raute.png');
     background-repeat: repeat;
 }
@@ -40,42 +68,78 @@ input[type="text"] {
     font-size: inherit;
     outline: none;
 }
-	
-#rahmenliob
-{ border-bottom-width : 0px; border-right-width : 0px; border-top-width : 1px; border-left-width : 1px; border-style : solid; border-color : #5066a8; background-color : #ccd3ea;}
 
-#rahmenlioub
-{ border-bottom-width : 1px; border-right-width : 0px; border-top-width : 1px; border-left-width : 1px; border-style : solid; border-color : #5066a8; background-color : #ccd3ea;}
-	
-#rahmenlio
-{ border-bottom-width : 0px; border-right-width : 0px; border-top-width : 1px; border-left-width : 1px; border-style : solid; border-color : #5066a8; }
-	
-#rahmenliou
-{ border-bottom-width : 1px; border-right-width : 0px; border-top-width : 1px; border-left-width : 1px; border-style : solid; border-color : #5066a8; }
-	
-#rahmeno
-{ border-bottom-width : 0px; border-right-width : 0px; border-top-width : 1px; border-left-width : 0px; border-top-style : solid;; border-color : #5066a8; }
+/* Table cell borders and backgrounds */
+.rahmenliob {
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-style: solid;
+    border-color: #5066a8;
+    background-color: #ccd3ea;
+}
+.rahmenlioub {
+    border-bottom-width: 1px;
+    border-right-width: 0px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-style: solid;
+    border-color: #5066a8;
+    background-color: #ccd3ea;
+}
+.rahmenlio {
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-style: solid;
+    border-color: #5066a8;
+}
+.rahmenliou {
+    border-bottom-width: 1px;
+    border-right-width: 0px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-style: solid;
+    border-color: #5066a8;
+}
+.rahmeno {
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 1px;
+    border-left-width: 0px;
+    border-top-style: solid;
+    border-color: #5066a8;
+}
 
+/* Steuerung/Buttons section */
+.steuerung {
+    /* nothing special, but class for harmony */
+}
 
+/* Print styles */
 @media print {
-    #steuerung { 
-        display : none; 
+    .steuerung {
+        display: none;
     }
-
-    #signature {
+    #signature,
+    #signature-auszahlung {
         border: 1px solid #888 !important;
         display: inline-block !important;
     }
-    #clearSignature {
+    #clearSignature,
+    #clearSignatureAuszahlung {
         display: none !important;
     }
-}
-
-@media print {
-    #rahmenau {
+    .rahmenau,
+    .rahmenau-auszahlung {
         background-image: url('../bilder/raute.png') !important;
         background-repeat: repeat !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
+    }
+    #switchBtn {
+        display: none !important;
     }
 }
